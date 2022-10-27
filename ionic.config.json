@@ -1,0 +1,7 @@
+{
+  "name": "autenticacao-ta",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
