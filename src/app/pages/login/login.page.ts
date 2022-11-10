@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  async mensagemErro(mensagem){
+  async mensagemErro(mensagem) {
     const toast = await this.toast.create({
       message: mensagem,
       duration: 1500,
@@ -30,18 +30,29 @@ export class LoginPage implements OnInit {
     await toast.present();
   }
 
-  login(email, password){
-    if(email && password){
+  loginGoogle() {
+    this.authService.GoogleAuth().then(() => {
+      this.router.navigate(['home']);
+    }).catch((error) => {
+      let mensagem = error.code;
+      if (error.code == 'auth/popup-closed-by-user')
+        mensagem = 'Login cancelado';
+      this.mensagemErro(mensagem);
+    });
+  }
+
+  login(email, password) {
+    if (email.value && password.value) {
       this.authService.SignIn(email.value, password.value)
         .then((res) => {
           this.router.navigate(['home']);
         }).catch((error) => {
           let mensagem = error.code;
-          if(error.code == 'auth/invalid-email')
+          if (error.code == 'auth/invalid-email')
             mensagem = 'Email inválido';
-          else if(error.code == 'auth/user-not-found')
+          else if (error.code == 'auth/user-not-found')
             mensagem = 'Usuário não encontrado';
-          else if(error.code == 'auth/wrong-password')
+          else if (error.code == 'auth/wrong-password')
             mensagem = 'Senha incorreta';
           this.mensagemErro(mensagem);
         })
