@@ -24,6 +24,7 @@ export class AuthenticationService {
           emailVerified: user.emailVerified
         };
         localStorage.setItem('user', JSON.stringify(this.userData));
+        this.router.navigate(['home']);
       } else {
         localStorage.setItem('user', null);
       }
@@ -43,5 +44,9 @@ export class AuthenticationService {
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     });
+  }
+
+  RegisterUser(email, password){
+    return this.ngFireAuth.createUserWithEmailAndPassword(email, password);
   }
 }
